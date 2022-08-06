@@ -27,7 +27,7 @@
     "Can't be kicked like shell": true,
     "Process interaction with Mario every frame": false,
     "Gives power-up when eaten by yoshi": false,
-    "Don't use default interaction with Mario": false
+    "Don't use default interaction with Mario": true
   },
   "$1686": {
     "Inedible": true,
@@ -54,8 +54,8 @@
   "Type": 1,
   "Extra Property Byte 1": 0,
   "Extra Property Byte 2": 0,
-  "Additional Byte Count (extra bit clear)": 2,
-  "Additional Byte Count (extra bit set)": 2,
+  "Additional Byte Count (extra bit clear)": 4,
+  "Additional Byte Count (extra bit set)": 4,
   "Map16": "",
   "Displays": [
     {
@@ -80,7 +80,7 @@
       "ExtraBit": false,
       "Extra Property Byte 1": 7,
       "Extra Property Byte 2": 12,
-      "Extra Property Byte 3": 0,
+      "Extra Property Byte 3": 1,
       "Extra Property Byte 4": 0
     },
     {
@@ -88,7 +88,7 @@
       "ExtraBit": false,
       "Extra Property Byte 1": 2,
       "Extra Property Byte 2": 14,
-      "Extra Property Byte 3": 0,
+      "Extra Property Byte 3": 1,
       "Extra Property Byte 4": 0
     },
     {
@@ -96,7 +96,7 @@
       "ExtraBit": false,
       "Extra Property Byte 1": 3,
       "Extra Property Byte 2": 13,
-      "Extra Property Byte 3": 0,
+      "Extra Property Byte 3": 1,
       "Extra Property Byte 4": 0
     },
     {
@@ -104,7 +104,7 @@
       "ExtraBit": false,
       "Extra Property Byte 1": 3,
       "Extra Property Byte 2": 11,
-      "Extra Property Byte 3": 0,
+      "Extra Property Byte 3": 1,
       "Extra Property Byte 4": 0
     }
   ]

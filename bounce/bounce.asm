@@ -53,9 +53,18 @@
 ;    1B    (-25)    2x2 invisible block, does not set high bytes (switch palace switch)
 
 
-; Bounce sprite direction (only up is supported now)
+; Bounce sprite direction (only up is supported now so no extra byte yet)
 ;    Direction: L-----DD
-;    00 = up; 01 = right; 10 = left; 11 = down.
+;    00 = up, 01 = right, 10 = left, 11 = down.
+
+
+; Extra byte 3: Direction
+; Valid values:
+;   00 = horizontal (right), 01 = vertical (down)
+
+; Extra byte 4: Number of adjacent bounce sprites to spawn
+; Valid values:
+;   01-04
 
 
 ; RTN_GenerateTile routine notes:
@@ -131,8 +140,8 @@ MainCode:
 ;       $03-$04 = Map16 number (only if $9C or X is $1C or larger) (Requires Custom Bounce Block Sprites)
 ;Ouput: Y = Slot used
 ;Clobbers:
-;       A, X, $05, $06, $07
-
+;       A, X, $05, $06, $07, 
+; me: $08, $09
 
     LDA !extra_byte_1,x             ; get bounce sprite number from extra byte 1
     STA $05                         ; put bounce sprite number in $05
@@ -143,11 +152,47 @@ MainCode:
     LDA !extra_byte_2,x             ; get tile to spawn from extra byte 2
     STA $07                         ; put tile to spawn in $07
 
+    ; LDA !extra_byte_3,x             ; get quantity for multi-spawn from extra byte 3
+    ; STA $0A                         ; put direction in $08
+
+    ; LDA !extra_byte_4,x             ; get direction for multi-spawn from extra byte 4
+    ; STA $0B                         ; put direction in $09
+
+    LDY #$00
+.qty
 
     LDA #$0F                        ; A = #$0F
     TRB $9A                         ; $9A = clear 4LSBs of $9A? ie #$47 -> #$40, $9A-$9B: 16-bit X position
     TRB $98                         ; $98 = clear 4LSBs of $98? ie #$91 -> #$90, $98-$99: 16-bit Y position
                                     ; this is to get the block positon from the mario's more precise position. basically truncate the pixels to the nearest tile.
+
+
+    ; LDY 
+    ; shifted Y times one tile amount ($10)
+    ; and add to current position 
+; tya
+; asl #4
+; sta $0c
+; stz $0d
+
+; phx
+;     PHY
+;     JSR Bounce
+;     PLY
+;     INY
+; plx 
+; wdm
+;     CPY $0A   ; qty
+;     BCC .qty
+
+;     RTS
+
+
+
+
+
+Bounce:
+
 
     LDY #$03                        ; setup index for bounce sprite loop
 .find_free
@@ -216,19 +261,57 @@ MainCode:
 
     LDA !E4,x                       ;\ load sprite x positon lo
     STA $9A                         ;| save to generate tile location 
-    STA !BNC_SpriteXPosLo,y         ;/ x lo
 
     LDA !14E0,x                     ;\ 
     STA $9B                         ;| x hi
-    STA !BNC_SpriteXPosHi,y         ;/ 
 
     LDA !D8,x                       ;\ 
     STA $98                         ;| y lo
-    STA !BNC_SpriteYPosLo,y         ;/ 
-
+ 
     LDA !14D4,x                     ;\ 
     STA $99                         ;| y hi
-    STA !BNC_SpriteYPosHi,y         ;/
+
+
+
+; lda $0B
+; beq .hor
+; ; add vertically
+;     rep #$20
+
+;     lda $98
+;     CLC
+;     ADC $0C
+;     STA $98
+
+;     sep #$20
+
+;     jmp .pos
+
+; .hor
+; ; add horizontally
+;     rep #$20
+    
+;     lda $9A
+;     CLC
+;     ADC $0C
+;     STA $9A
+
+;     sep #$20
+
+
+.pos
+
+    lda $98
+        STA !BNC_SpriteYPosLo,y         ;/ 
+
+    lda $99
+        STA !BNC_SpriteYPosHi,y         ;/
+    
+    lda $9a
+        STA !BNC_SpriteXPosLo,y         ;/ x lo
+
+    lda $9b
+        STA !BNC_SpriteXPosHi,y         ;/ 
 
 
     LDA !RAM_LayerBeingProcessed    ;\ Layer being processed. #$00 = Layer 1; #$01 = Layer 2/3 (depending on which is interactive). Used in both level loading routine and processing interactions.
