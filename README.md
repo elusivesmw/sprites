@@ -6,8 +6,8 @@ Placeable bounce sprite in Lunar Magic. Used to spawn a bounce sprite, such as a
 
 ## Castle Entrance
 
-WIP: Disassembly of the castle entrance door. Used to make interactive cutscenes before a castle level.
+WIP: Disassembly of the castle entrance door. Used to make interactive cutscenes before a castle level. The castle door will slide up when mario gets near, and reclose after.
 
 ## Ghost House Entrance
 
-WIP: Disassembly of the ghost house entrance door. Used to make interactive cutscenes before a ghost house level.
+WIP: Disassembly of the ghost house entrance door. Used to make interactive cutscenes before a ghost house level. The ghost house door will open when mario gets near, and reclose after.
